@@ -8,7 +8,8 @@ from opbeans import models as m
 
 def stats(request):
     numbers = m.Product.objects.annotate(
-        order_count=models.Count('order'),
+        order_count=models.Count('order')
+    ).annotate(
         per_item_profit=models.F('selling_price') - models.F('cost'),
         total_profit=models.F('order_count') * models.F('per_item_profit'),
         total_revenue=models.F('order_count') * models.F('selling_price'),
