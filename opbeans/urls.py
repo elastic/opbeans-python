@@ -1,5 +1,8 @@
+import os
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings
+from django.views.static import serve
 from django.views.generic import TemplateView
 
 from opbeans import views
@@ -18,4 +21,5 @@ urlpatterns = [
     url(r'^api/customers/(?P<pk>[0-9]+)$', views.customer, name='customer=detail'),
     url(r'^api/orders$', views.orders, name='orders'),
     url(r'^api/orders/(?P<pk>[0-9]+)$', views.order, name='order-detail'),
+    url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'demo', 'images')}),
 ]
