@@ -10,6 +10,7 @@ from opbeans import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^(?:dashboard|products|customers|orders).*$', TemplateView.as_view(template_name='index.html')),
     url(r'^api/stats$', views.stats, name='stats'),
     url(r'^api/products$', views.products, name='products'),
     url(r'^api/products/top$', views.top_products, name='top-products'),
