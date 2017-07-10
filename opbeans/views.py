@@ -111,13 +111,32 @@ def customer(request, pk):
     return JsonResponse(customer_obj)
 
 
+@csrf_exempt
 def orders(request):
+    if request.method == 'POST':
+        return post_order(request)
     order_list = list(m.Order.objects.values(
         'id', 'customer_id', 'customer__full_name', 'created_at'
     )[:1000])
     for order in order_list:
         order['customer_name'] = order.pop('customer__full_name')
     return JsonResponse(order_list, safe=False)
+
+
+def post_order(request):
+    data = json.loads(request.body)
+    if 'customer_id' not in data:
+        return HttpResponse(status=400)
+    customer_obj = get_object_or_404(m.Customer, pk=data['customer_id'])
+    order_obj = m.Order.objects.create(customer=customer_obj)
+    for line in data['lines']:
+        product_obj = get_object_or_404(m.Product, pk=line['id'])
+        m.OrderLine.objects.create(
+            order=order_obj,
+            product=product_obj,
+            amount=line['amount']
+        )
+    return JsonResponse({'id': order_obj.pk})
 
 
 def order(request, pk):

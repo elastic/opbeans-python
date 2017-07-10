@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
 
 
 class Customer(models.Model):
@@ -35,7 +36,7 @@ class OrderLine(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, models.DO_NOTHING)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(default=timezone.now)
     lines = models.ManyToManyField('Product', through=OrderLine)
 
     class Meta:
