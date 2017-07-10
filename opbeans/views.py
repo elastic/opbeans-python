@@ -1,16 +1,18 @@
 import json
 
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.db import models
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+
 from opbeans import models as m
 
 
 def stats(request):
     numbers = m.Product.objects.annotate(
-        order_count=models.Count('order')
+        order_count=models.Count('order'),
+        per_item_profit=models.F('selling_price') - models.F('cost')
     ).annotate(
-        per_item_profit=models.F('selling_price') - models.F('cost'),
         total_profit=models.F('order_count') * models.F('per_item_profit'),
         total_revenue=models.F('order_count') * models.F('selling_price'),
         total_cost=models.F('order_count') * models.F('cost')
