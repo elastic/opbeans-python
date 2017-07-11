@@ -1,6 +1,6 @@
 Django==1.11.3
 certifi==2017.4.17
-opbeat==3.5.2
+git+https://github.com/opbeat/opbeat_python.git@feature/sampling#egg=opbeat==100
 psycopg2==2.7.1
 pytz==2017.2
 urllib3==1.21.1
