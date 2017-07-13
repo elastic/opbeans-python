@@ -111,7 +111,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 OPBEAT = {
     "DEBUG": True,
-    "SERVERS": [os.environ.get('OPBEAT_SERVER', 'http://localhost:8080')]
+    "SERVERS": [os.environ.get('OPBEAT_SERVER', 'http://localhost:8080')],
+    "TRACES_SEND_FREQ_SECS" : os.environ.get('TRACES_SEND_FREQ_SECS', 60),
 }
 
 
