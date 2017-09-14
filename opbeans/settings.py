@@ -109,10 +109,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-ELASTICAPM = {
+ELASTIC_APM = {
     "DEBUG": True,
     "APP_NAME": 'opbeans-python',
-    "SERVERS": [os.environ.get('ELASTICAPM_SERVER', 'http://localhost:8080')],
+    "SERVERS": [os.environ.get('ELASTIC_APM_SERVER', 'http://localhost:8200')],
     "TRACES_SEND_FREQ_SECS" : os.environ.get('TRACES_SEND_FREQ_SECS', 60),
 }
 
@@ -139,7 +139,7 @@ LOGGING = {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
-        'opbeat': {
+        'elasticapm': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },

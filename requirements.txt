@@ -1,8 +1,13 @@
 Django==1.11.3
 certifi==2017.4.17
-git+https://github.com/elastic/apm-agent-python#egg=elastic-apm
+https://github.com/elastic/apm-agent-python/archive/master.zip#egg=elastic-apm==100
 psycopg2==2.7.1
 pytz==2017.2
 urllib3==1.21.1
 whitenoise==3.3.0
 dj_database_url==0.4.2
+amqp==2.2.1
+billiard==3.5.0.3
+celery==4.1.0
+kombu==4.1.0
+vine==1.1.4
