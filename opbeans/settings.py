@@ -25,12 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'opbeat.contrib.django',
+    'elasticapm.contrib.django',
     'opbeans',
 ]
 
 MIDDLEWARE = [
-    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+    'elasticapm.contrib.django.middleware.TracingMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -109,9 +109,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-OPBEAT = {
+ELASTIC_APM = {
     "DEBUG": True,
-    "SERVERS": [os.environ.get('OPBEAT_SERVER', 'http://localhost:8080')],
+    "APP_NAME": 'opbeans-python',
     "TRACES_SEND_FREQ_SECS" : os.environ.get('TRACES_SEND_FREQ_SECS', 60),
 }
 
@@ -138,7 +138,7 @@ LOGGING = {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
-        'opbeat': {
+        'elasticapm': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },

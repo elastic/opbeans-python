@@ -161,3 +161,7 @@ def order(request, pk):
         'lines': lines,
     }
     return JsonResponse(data)
+
+
+def oopsie(request):
+    assert False
