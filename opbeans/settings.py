@@ -112,7 +112,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 ELASTIC_APM = {
     "DEBUG": True,
     "APP_NAME": 'opbeans-python',
-    "SERVERS": [os.environ.get('ELASTIC_APM_SERVER', 'http://localhost:8200')],
     "TRACES_SEND_FREQ_SECS" : os.environ.get('TRACES_SEND_FREQ_SECS', 60),
 }
 
