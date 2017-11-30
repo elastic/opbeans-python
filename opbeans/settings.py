@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'opbeans.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+    'default': dj_database_url.config(conn_max_age=600, default='sqlite://./demo/db.sql')
 }
 
 
@@ -112,7 +112,33 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 ELASTIC_APM = {
     "DEBUG": True,
     "APP_NAME": 'opbeans-python',
-    "TRACES_SEND_FREQ_SECS" : os.environ.get('TRACES_SEND_FREQ_SECS', 60),
+    "TRACES_SEND_FREQ": 5,
+}
+
+CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_BEAT_SCHEDULE = {
+    'update-stats': {
+        'task': 'opbeans.tasks.update_stats',
+        'schedule': 5,
+        'args': (),
+    },
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get('REDIS_URL', 'redis://localhost:6379') + "/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "cache"
+    }
 }
 
 

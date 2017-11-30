@@ -1,32 +1,20 @@
 import json
 
 from django.http import JsonResponse, Http404, HttpResponse
+from django.core.cache import cache
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
 from opbeans import models as m
+from opbeans import utils
 
 
 def stats(request):
-    numbers = m.Product.objects.annotate(
-        order_count=models.Count('order'),
-        per_item_profit=models.F('selling_price') - models.F('cost')
-    ).annotate(
-        total_profit=models.F('order_count') * models.F('per_item_profit'),
-        total_revenue=models.F('order_count') * models.F('selling_price'),
-        total_cost=models.F('order_count') * models.F('cost')
-    ).aggregate(
-        revenue=models.Sum('total_revenue'),
-        cost=models.Sum('total_cost'),
-        profit=models.Sum('total_profit'),
-    )
-    data = {
-        'products': m.Product.objects.count(),
-        'customers': m.Customer.objects.count(),
-        'orders': m.Order.objects.count(),
-        'numbers': numbers
-    }
+    data = cache.get(utils.stats.cache_key)
+    if not data:
+        data = utils.stats()
+        cache.set(utils.stats.cache_key, data, 60)
     return JsonResponse(data, safe=False)
 
 
