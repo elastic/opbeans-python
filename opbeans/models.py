@@ -7,7 +7,7 @@ from django.utils import timezone
 class Customer(models.Model):
     full_name = models.CharField(max_length=1000)
     company_name = models.CharField(max_length=1000)
-    email = models.CharField(max_length=1000)
+    email = models.EmailField(max_length=1000)
     address = models.CharField(max_length=1000)
     postal_code = models.CharField(max_length=1000)
     city = models.CharField(max_length=1000)
@@ -15,6 +15,21 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.full_name
+
+    def to_search(self):
+        d = {
+            '_id': self.pk,
+            'full_name': self.full_name,
+            'company_name': self.company_name,
+            'email': self.email,
+            'address': self.address,
+            'postal_code': self.postal_code,
+            'city': self.city,
+            'country': self.country,
+        }
+        if hasattr(self, 'total_orders'):
+            d['total_orders'] = self.total_orders
+        return d
 
     class Meta:
         managed = False
@@ -35,7 +50,7 @@ class OrderLine(models.Model):
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, models.DO_NOTHING, related_name='orders')
     created_at = models.DateTimeField(default=timezone.now)
     lines = models.ManyToManyField('Product', through=OrderLine)
 

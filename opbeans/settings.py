@@ -128,6 +128,16 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 5,
         'args': (),
     },
+    'sync_customers': {
+        'task': 'opbeans.tasks.sync_customers',
+        'schedule': 49,
+        'args': (),
+    },
+    'sync_customers_bulk': {
+        'task': 'opbeans.tasks.sync_customers_bulk',
+        'schedule': 51,
+        'args': (),
+    },
 }
 
 CACHES = {
@@ -140,6 +150,8 @@ CACHES = {
         "KEY_PREFIX": "cache"
     }
 }
+
+ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
 
 
 LOGGING = {
