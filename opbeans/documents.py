@@ -1,4 +1,4 @@
-from elasticsearch_dsl import DocType, Integer, Keyword, Text
+from elasticsearch_dsl import DocType, Integer, Keyword, Text, Object, Date, Float
 
 
 class Customer(DocType):
@@ -13,6 +13,22 @@ class Customer(DocType):
 
     class Meta:
         index = 'py-customers'
+        
 
-    def save(self, **kwargs):
-        super(Customer, self).save(**kwargs)
+customer_field = Object(properties={
+    'full_name': Text(analyzer='snowball'),
+    'id': Integer(),
+})
+
+
+class Order(DocType):
+    customer = customer_field
+    created_at = Date()
+    data = Object(properties={
+        'total_amount': Float(),
+        'cost': Float(),
+        'margin': Float(),
+    })
+
+    class Meta:
+        index = 'py-orders'

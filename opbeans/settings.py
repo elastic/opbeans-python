@@ -138,6 +138,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 51,
         'args': (),
     },
+    'sync_orders': {
+        'task': 'opbeans.tasks.sync_orders',
+        'schedule': 30,
+        'args': (),
+    },
 }
 
 CACHES = {

@@ -58,6 +58,22 @@ class Order(models.Model):
         managed = False
         db_table = 'orders'
 
+    def to_search(self):
+        order_lines = list(self.orderline_set.all())
+        return {
+            '_id': self.pk,
+            'customer': {
+                'id': self.customer.pk,
+                'full_name': self.customer.full_name,
+            },
+            'created_at': self.created_at,
+            'data': {
+                'total_amount': sum(line.product.selling_price for line in order_lines) / 100.0,
+                'cost': sum(line.product.cost for line in order_lines) / 100.0,
+                'margin': sum((line.product.selling_price - line.product.cost) for line in order_lines) / 100.0,
+            }
+        }
+
 
 class ProductType(models.Model):
     name = models.CharField(unique=True, max_length=1000)
