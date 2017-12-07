@@ -53,13 +53,17 @@ def product(request, pk):
 
 
 def product_customers(request, pk):
-    customers = m.Customer.objects.filter(
-        order__orderline__product_id=pk
+    try:
+        limit = int(request.GET.get('count', 1000))
+    except ValueError:
+        limit = 1000
+    customers_list = m.Customer.objects.filter(
+        orders__orderline__product_id=pk
     ).distinct().values(
         'id', 'full_name', 'company_name', 'email', 'address',
         'postal_code', 'city', 'country'
-    )[:1000]
-    return JsonResponse(list(customers), safe=False)
+    )[:limit]
+    return JsonResponse(list(customers_list), safe=False)
 
 
 def product_types(request):

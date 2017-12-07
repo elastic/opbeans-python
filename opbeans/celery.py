@@ -3,6 +3,9 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'opbeans.settings')
 
+import django
+django.setup()
+
 app = Celery('opbeans')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
