@@ -6,15 +6,20 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
+import elasticapm
+
 from opbeans import models as m
 from opbeans import utils
 
 
 def stats(request):
+    from_cache = True
     data = cache.get(utils.stats.cache_key)
     if not data:
         data = utils.stats()
         cache.set(utils.stats.cache_key, data, 60)
+        from_cache = False
+    elasticapm.tag(served_from_cache=from_cache)
     return JsonResponse(data, safe=False)
 
 
@@ -106,6 +111,8 @@ def customer(request, pk):
 @csrf_exempt
 def orders(request):
     if request.method == 'POST':
+        # set transaction name to post_order
+        elasticapm.set_transaction_name('POST opbeans.views.post_order')
         return post_order(request)
     order_list = list(m.Order.objects.values(
         'id', 'customer_id', 'customer__full_name', 'created_at'
@@ -121,6 +128,8 @@ def post_order(request):
         return HttpResponse(status=400)
     customer_obj = get_object_or_404(m.Customer, pk=data['customer_id'])
     order_obj = m.Order.objects.create(customer=customer_obj)
+
+    total_amount = 0
     for line in data['lines']:
         product_obj = get_object_or_404(m.Product, pk=line['id'])
         m.OrderLine.objects.create(
@@ -128,6 +137,19 @@ def post_order(request):
             product=product_obj,
             amount=line['amount']
         )
+        total_amount += line['amount'] * product_obj.selling_price
+
+    # store lines count in and total amount in tags
+    elasticapm.tag(
+        lines_count=len(data['lines']),
+        total_amount=total_amount / 100.0,
+    )
+
+    # store customer in transaction custom data
+    elasticapm.set_transaction_data({
+        'customer_name': customer_obj.full_name,
+        'customer_email': customer_obj.email,
+    })
     return JsonResponse({'id': order_obj.pk})
 
 

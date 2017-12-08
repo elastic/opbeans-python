@@ -1,5 +1,6 @@
 import os
 import random
+import json
 from urllib.parse import urljoin
 
 from molotov import scenario
@@ -82,6 +83,21 @@ async def scenario_orders(session):
 @scenario(weight=8)
 async def scenario_orders_id(session):
     async with session.get(join(SERVER_URL, 'api', 'orders', str(random.randint(1, 1000)))) as resp:
+        assert resp.status == 200, resp.status
+
+
+@scenario(weight=1)
+async def scenario_orders_post(session):
+    data = {
+        'customer_id': random.randint(1, 1000),
+        'lines': [],
+    }
+    for i in range(0, random.randint(1, 5)):
+        data['lines'].append({
+            'id': random.randint(1, 6),
+            'amount': random.randint(1, 4)
+        })
+    async with session.post(join(SERVER_URL, 'api', 'orders'), data=json.dumps(data)) as resp:
         assert resp.status == 200, resp.status
 
 
