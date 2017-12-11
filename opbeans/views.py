@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
 import elasticapm
+from elasticapm.contrib.django.client import client
 
 from opbeans import models as m
 from opbeans import utils
@@ -178,4 +179,5 @@ def order(request, pk):
 
 
 def oopsie(request):
+    client.capture_message('About to blow up!')
     assert False
