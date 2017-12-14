@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.http import JsonResponse, Http404, HttpResponse
 from django.core.cache import cache
@@ -11,6 +12,9 @@ from elasticapm.contrib.django.client import client
 
 from opbeans import models as m
 from opbeans import utils
+
+
+logger = logging.getLogger(__name__)
 
 
 def stats(request):
@@ -105,6 +109,7 @@ def customer(request, pk):
             'postal_code', 'city', 'country'
         )[0]
     except IndexError:
+        logger.warning('Customer with ID %s not found', pk, exc_info=True)
         raise Http404()
     return JsonResponse(customer_obj)
 

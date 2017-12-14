@@ -175,11 +175,19 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
+        'elasticapm': {
+            'class': 'elasticapm.contrib.django.handlers.LoggingHandler',
+            'level': 'WARNING',
+        },
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'opbeans': {
+            'handlers': ['console', 'elasticapm'],
+            'level': 'INFO',
         },
         'elasticapm': {
             'handlers': ['console'],

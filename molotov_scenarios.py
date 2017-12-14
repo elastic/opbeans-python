@@ -74,6 +74,12 @@ async def scenario_customers_id(session):
         assert resp.status == 200, resp.status
 
 
+@scenario(weight=2)
+async def scenario_wrong_customers_id(session):
+    async with session.get(join(SERVER_URL, 'api', 'customers', str(random.randint(5000, 10000)))) as resp:
+        assert resp.status == 404, resp.status
+
+
 @scenario(weight=8)
 async def scenario_orders(session):
     async with session.get(join(SERVER_URL, 'api', 'orders')) as resp:
