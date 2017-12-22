@@ -111,8 +111,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 ELASTIC_APM = {
     "DEBUG": True,
-    "APP_NAME": 'opbeans-python',
-    "TRACES_SEND_FREQ": 5,
+    "SERVICE_NAME": 'opbeans-python',
+    "TRANSACTION_SEND_FREQ": 5,
 }
 
 CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
