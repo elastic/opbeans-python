@@ -6,7 +6,8 @@ certifi==2017.11.5
 dj-database-url==0.4.2
 django-redis==4.8.0
 elastic-apm==1.0.0
-https://github.com/elastic/elasticsearch-dsl-py/archive/master.zip#egg=elasticsearch-dsl
+elasticsearch==6.1.1
+elasticsearch-dsl==6.0.1
 honcho==1.0.1
 kombu==4.1.0
 psycopg2==2.7.3.2
