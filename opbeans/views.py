@@ -152,7 +152,7 @@ def post_order(request):
     )
 
     # store customer in transaction custom data
-    elasticapm.set_transaction_data({
+    elasticapm.set_custom_context({
         'customer_name': customer_obj.full_name,
         'customer_email': customer_obj.email,
     })
