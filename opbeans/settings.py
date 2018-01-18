@@ -31,6 +31,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'elasticapm.contrib.django.middleware.TracingMiddleware',
+    'opbeans.middleware.tag_request_id_middleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
