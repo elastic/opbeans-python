@@ -45,6 +45,6 @@ def sync_orders():
         if e.status_code == 404:
             highest_id = 0
     order_docs = []
-    for order in models.Order.objects.filter(id__gt=highest_id).prefetch_related('orderline_set__product'):
+    for order in models.Order.objects.filter(id__gt=highest_id).prefetch_related('customer', 'orderline_set__product'):
         order_docs.append(documents.Order(**order.to_search()).to_dict(include_meta=True))
     bulk(connections.get_connection(), order_docs)
