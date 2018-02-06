@@ -1,8 +1,10 @@
+import io
 import os
 import random
 import json
 from urllib.parse import urljoin
 
+from aiohttp import FormData
 from molotov import scenario
 
 SERVER_URL = os.environ.get('OPBEANS_SERVER_URL', 'http://localhost:8000')
@@ -104,6 +106,26 @@ async def scenario_orders_post(session):
             'amount': random.randint(1, 4)
         })
     async with session.post(join(SERVER_URL, 'api', 'orders'), data=json.dumps(data)) as resp:
+        assert resp.status == 200, resp.status
+
+
+@scenario(weight=1)
+async def scenario_orders_post_csv(session):
+    customer_id = random.randint(1, 1000)
+    lines = []
+    for i in range(0, random.randint(1, 5)):
+        lines.append(','.join(map(str, [
+            random.randint(1, 6), random.randint(1, 4)
+        ])))
+    data = FormData()
+    data.add_field('customer', str(customer_id))
+    data.add_field(
+        'file',
+        io.BytesIO('\n'.join(lines).encode('utf8')),
+        filename='data.csv',
+        content_type='text/plain'
+    )
+    async with session.post(join(SERVER_URL, 'api', 'orders', 'csv'), data=data) as resp:
         assert resp.status == 200, resp.status
 
 
