@@ -159,6 +159,29 @@ def post_order(request):
     return JsonResponse({'id': order_obj.pk})
 
 
+@csrf_exempt
+def post_order_csv(request):
+    customer_id = request.POST['customer']
+    customer_obj = get_object_or_404(m.Customer, pk=customer_id)
+    order_obj = m.Order.objects.create(customer=customer_obj)
+    total_amount = 0
+    i = 0
+    for i, line in enumerate(request.FILES['file']):
+        product_id, amount = map(int, line.decode('utf8').split(','))
+        product_obj = get_object_or_404(m.Product, pk=product_id)
+        m.OrderLine.objects.create(
+            order=order_obj,
+            product=product_obj,
+            amount=amount
+        )
+        total_amount += amount * product_obj.selling_price
+    elasticapm.tag(
+        lines_count=i,
+        total_amount=total_amount / 100.0,
+    )
+    return HttpResponse('OK')
+
+
 def order(request, pk):
     order_obj = get_object_or_404(m.Order, pk=pk)
     lines = list(order_obj.orderline_set.values(

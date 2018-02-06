@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^api/customers$', views.customers, name='customers'),
     url(r'^api/customers/(?P<pk>[0-9]+)$', views.customer, name='customer=detail'),
     url(r'^api/orders$', views.orders, name='orders'),
+    url(r'^api/orders/csv$', views.post_order_csv, name='orders-csv'),
     url(r'^api/orders/(?P<pk>[0-9]+)$', views.order, name='order-detail'),
     url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'demo', 'images')}),
     url(r'^oopsie$', views.oopsie),
