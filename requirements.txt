@@ -23,3 +23,14 @@ async-timeout==2.0.0
 molotov==1.4
 multidict==3.3.2
 yarl==0.15.0
+
+
+# flask
+Jinja2==2.10
+MarkupSafe==1.0
+Werkzeug==0.14.1
+click==6.7
+flask==0.12.2
+flask-sqlalchemy==2.3.2
+itsdangerous==0.24
+sqlalchemy==1.2.3
