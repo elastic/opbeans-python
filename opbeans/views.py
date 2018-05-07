@@ -12,7 +12,7 @@ from elasticapm.contrib.django.client import client
 
 from opbeans import models as m
 from opbeans import utils
-
+from opbeans.utils import StreamingJsonResponse, iterlist
 
 logger = logging.getLogger(__name__)
 
@@ -29,11 +29,17 @@ def stats(request):
 
 
 def products(request):
-    product_list = m.Product.objects.select_related('product_type')
-    data = list(product_list.values('id', 'sku', 'name', 'stock', 'product_type__name'))
-    for elem in data:
-        elem['type_name'] = elem.pop('product_type__name')
-    return JsonResponse(data, safe=False)
+    product_list = m.Product.objects.all()
+
+    data = iterlist({
+        'id': elem.id,
+        'sku': elem.sku,
+        'name': elem.name,
+        'stock': elem.stock,
+        'type_name': elem.product_type.name,
+    } for elem in product_list)
+
+    return StreamingJsonResponse(data, safe=False)
 
 
 def top_products(request):
@@ -123,8 +129,8 @@ def orders(request):
     order_list = list(m.Order.objects.values(
         'id', 'customer_id', 'customer__full_name', 'created_at'
     )[:1000])
-    for order in order_list:
-        order['customer_name'] = order.pop('customer__full_name')
+    for order_dict in order_list:
+        order_dict['customer_name'] = order_dict.pop('customer__full_name')
     return JsonResponse(order_list, safe=False)
 
 
