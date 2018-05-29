@@ -1,0 +1,11 @@
+.gitignore
+.vscode
+.idea
+Makefile
+README.md
+Dockerfile
+client
+demo/db.sql
+opbeans/static/build
+**/__pycache__
+celerybeat-schedule

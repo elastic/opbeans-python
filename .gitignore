@@ -5,3 +5,5 @@ demo/db.sql
 static/*
 .idea
 celerybeat-schedule
+opbeans/static/build
+client
