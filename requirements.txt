@@ -8,6 +8,7 @@ django-redis==4.8.0
 elastic-apm==2.0.0
 elasticsearch==6.1.1
 elasticsearch-dsl==6.0.1
+gunicorn==19.8.1
 honcho==1.0.1
 kombu==4.1.0
 psycopg2==2.7.3.2

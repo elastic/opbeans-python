@@ -56,6 +56,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'opbeans.context_processors.apm_settings',
             ],
         },
     },
@@ -106,11 +107,9 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'opbeans', 'static', 'build', 'static')
+ASSET_MANIFEST = os.path.join(BASE_DIR, 'opbeans', 'static', 'build', 'asset-manifest.json')
 ELASTIC_APM = {
     "DEBUG": True,
     "SERVICE_NAME": 'opbeans-python',
