@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^api/orders$', views.orders, name='orders'),
     url(r'^api/orders/csv$', views.post_order_csv, name='orders-csv'),
     url(r'^api/orders/(?P<pk>[0-9]+)$', views.order, name='order-detail'),
-    url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'demo', 'images')}),
+    url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'build', 'images')}),
     url(r'^oopsie$', views.oopsie),
 ]
