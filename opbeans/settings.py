@@ -112,7 +112,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'opbeans', 'static', 'build', 'static')
 ASSET_MANIFEST = os.path.join(BASE_DIR, 'opbeans', 'static', 'build', 'asset-manifest.json')
 ELASTIC_APM = {
     "DEBUG": True,
-    "SERVICE_NAME": 'opbeans-python',
+    "SERVICE_NAME": os.environ.get('ELASTIC_APM_SERVICE_NAME', 'opbeans-python'),
     "TRANSACTION_SEND_FREQ": 5,
 }
 
