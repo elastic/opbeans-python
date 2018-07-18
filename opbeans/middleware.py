@@ -30,7 +30,7 @@ users = [
     User(True, 20, 'danny42', 'danny42@greer-wilson.com', '$$'),
 ]
 
-weights = [68, 70, 9, 55, 47, 76, 65, 96, 99, 21, 60, 34, 40, 1, 50, 31, 77, 40, 34, 88]
+weights = [68, 70, 9, 55, 47, 76, 65, 96, 99, 14, 60, 34, 40, 15, 43, 31, 77, 40, 34, 88]
 
 
 def tag_request_id_middleware(get_response):
