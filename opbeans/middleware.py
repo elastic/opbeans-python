@@ -46,7 +46,7 @@ def user_middleware(get_response):
     def middleware(request):
         __traceback_hide__ = True
         if not request.user.is_authenticated:
-            request.user = random.choice(users, weights=weights)
+            request.user = random.choices(users, weights=weights)[0]
             elasticapm.tag(customer_tier=request.user.customer_tier)
         return get_response(request)
     return middleware
