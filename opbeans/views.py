@@ -1,10 +1,12 @@
 import json
 import logging
+import os
 
+from django.apps import apps
 from django.http import JsonResponse, Http404, HttpResponse
 from django.core.cache import cache
 from django.db import models
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 
 import elasticapm
@@ -215,3 +217,15 @@ def order(request, pk):
 def oopsie(request):
     client.capture_message('About to blow up!')
     assert False
+
+
+def rum_agent_config(request):
+    if 'ELASTIC_APM_JS_SERVER_URL' in os.environ:
+        url = os.environ['ELASTIC_APM_JS_SERVER_URL']
+    else:
+        app = apps.get_app_config('elasticapm.contrib.django')
+        url = app.client.config.server_url
+    variables = {
+        'elasticApmJsBaseServerUrl': url,
+    }
+    return render_to_response('variables.js', context={'variables': variables}, content_type='text/javascript')

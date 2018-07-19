@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^api/orders/(?P<pk>[0-9]+)$', views.order, name='order-detail'),
     url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'build', 'images')}),
     url(r'^oopsie$', views.oopsie),
+    url(r'^rum-config.js$', views.rum_agent_config, name='rum-config')
 ]
