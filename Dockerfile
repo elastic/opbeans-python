@@ -11,4 +11,6 @@ RUN bunzip2 /app/demo/db.sql.bz2
 
 COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
 
+RUN cp /app/opbeans/static/build/index.html /app/opbeans/templates/
+
 CMD ["honcho", "start"]
