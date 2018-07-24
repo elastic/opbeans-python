@@ -11,9 +11,4 @@ compile-frontend:
 
 frontend: | update-frontend compile-frontend
 
-push-image:
-	-docker info | grep "Registry: https://index.docker.io/v1/" || docker login
-	docker build . -t beniwohli/opbeans-python
-	docker push beniwohli/opbeans-python
-
 .PHONY: frontend update-frontend compile-frontend push-image

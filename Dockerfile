@@ -13,4 +13,6 @@ COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
 
 RUN cp /app/opbeans/static/build/index.html /app/opbeans/templates/
 
+EXPOSE 3000
+
 CMD ["honcho", "start"]
