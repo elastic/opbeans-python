@@ -9,7 +9,7 @@ ADD . /app
 
 RUN bunzip2 /app/demo/db.sql.bz2
 
-COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
+COPY --from=opbeans/opbeans-frontend:latest /app /app/opbeans/static
 
 RUN cp /app/opbeans/static/build/index.html /app/opbeans/templates/
 
