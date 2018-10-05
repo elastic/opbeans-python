@@ -226,9 +226,8 @@ RUM_CONFIG = {}
 
 def rum_agent_config(request):
     if not RUM_CONFIG:
-        if 'ELASTIC_APM_JS_BASE_SERVER_URL' in os.environ:
-            url = os.environ['ELASTIC_APM_JS_BASE_SERVER_URL']
-        else:
+        url = os.environ.get('ELASTIC_APM_JS_BASE_SERVER_URL', os.environ.get('ELASTIC_APM_JS_SERVER_URL'))
+        if not url:
             app = apps.get_app_config('elasticapm.contrib.django')
             url = app.client.config.server_url
         RUM_CONFIG['elasticApmJsBaseServerUrl'] = url
