@@ -1,7 +1,8 @@
-import json
 import logging
 import os
 import json
+from functools import wraps
+import random
 
 from django.apps import apps
 from django.http import JsonResponse, Http404, HttpResponse
@@ -10,9 +11,11 @@ from django.core.cache import cache
 from django.db import models
 from django.shortcuts import get_object_or_404, render_to_response
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import available_attrs
 
 import elasticapm
 from elasticapm.contrib.django.client import client
+import requests
 
 from opbeans import models as m
 from opbeans import utils
@@ -21,6 +24,27 @@ from opbeans.utils import StreamingJsonResponse, iterlist
 logger = logging.getLogger(__name__)
 
 
+def maybe_dt(view_func):
+    # either calls the view, or randomly forwards the request to another opbeans service
+    def wrapped_view(request, *args, **kwargs):
+        other_services = os.environ.get("OPBEANS_SERVICES")
+        try:
+            probability = float(os.environ.get("OPBEANS_DT_PROBABILITY", 0.5))
+        except ValueError:
+            probability = 0.5
+        if request.method == "GET" and other_services and random.random() < probability:
+            other_service = random.choice(other_services.split(","))
+            if not other_service.startswith("http://"):
+                other_service = "http://{}:3000".format(other_service)
+            url = other_service + request.get_full_path()
+            logger.info("Proxying to %s", url)
+            other_response = requests.get(url)
+            return HttpResponse(other_response.content, status=other_response.status_code, content_type=other_response.headers['content-type'])
+        return view_func(request, *args, **kwargs)
+    return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)
+
+
+@maybe_dt
 def stats(request):
     from_cache = True
     data = cache.get(utils.stats.cache_key)
@@ -32,6 +56,7 @@ def stats(request):
     return JsonResponse(data, safe=False)
 
 
+@maybe_dt
 def products(request):
     product_list = m.Product.objects.all()
 
@@ -46,6 +71,7 @@ def products(request):
     return StreamingJsonResponse(data, safe=False)
 
 
+@maybe_dt
 def top_products(request):
     products = m.Product.objects.annotate(
         sold=models.Sum('orderline__amount')
@@ -55,6 +81,7 @@ def top_products(request):
     return JsonResponse(list(products), safe=False)
 
 
+@maybe_dt
 def product(request, pk):
     try:
         product_obj = m.Product.objects.select_related(
@@ -72,6 +99,7 @@ def product(request, pk):
     return JsonResponse(product_obj)
 
 
+@maybe_dt
 def product_customers(request, pk):
     try:
         limit = int(request.GET.get('count', 1000))
@@ -86,11 +114,13 @@ def product_customers(request, pk):
     return JsonResponse(list(customers_list), safe=False)
 
 
+@maybe_dt
 def product_types(request):
     types = m.ProductType.objects.values('id', 'name')
     return JsonResponse(list(types), safe=False)
 
 
+@maybe_dt
 def product_type(request, pk):
     product_type = get_object_or_404(m.ProductType, pk=pk)
     products = m.Product.objects.filter(product_type=product_type).values(
@@ -104,6 +134,7 @@ def product_type(request, pk):
     return JsonResponse(data)
 
 
+@maybe_dt
 def customers(request):
     customer_list = m.Customer.objects.values(
         'id', 'full_name', 'company_name', 'email', 'address',
@@ -112,6 +143,7 @@ def customers(request):
     return JsonResponse(list(customer_list), safe=False)
 
 
+@maybe_dt
 def customer(request, pk):
     try:
         customer_obj = m.Customer.objects.filter(pk=pk).values(
