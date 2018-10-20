@@ -30,3 +30,20 @@ There's a compressed SQLite database in the `demo` directory. You can run it lik
     DATABASE_URL=sqlite://./demo/db.sql ./manage.py runserver
 
 There's an admin user, `barista`/`affogato`.
+
+## Run locally
+
+The simplest way to run this demo is by using the provided docker-compose.yml:
+
+```bash
+docker-compose up
+```
+
+## Run with Elastic Cloud
+
+0. Start Elastic Cloud [trial](https://www.elastic.co/cloud/elasticsearch-service/signup) (if you don't have it yet)
+1. Add environmental variables `ELASTIC_CLOUD_URL`, `ELASTIC_CLOUD_ID` and `ELASTIC_CLOUD_CREDENTIALS` (in format `login:password`)
+2. Run 
+```bash
+docker-compose -f docker-compose-elastic-cloud.yml up
+```
