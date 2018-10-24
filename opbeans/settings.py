@@ -19,6 +19,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "db_prefix",
     'elasticapm.contrib.django',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,8 +70,10 @@ WSGI_APPLICATION = 'opbeans.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600, default='sqlite://./demo/db.sql')
+    'default': dj_database_url.config(conn_max_age=600, default='sqlite:///{}/demo/db.sql'.format(BASE_DIR))
 }
+
+DB_PREFIX = os.environ.get("DB_PREFIX", None)
 
 
 # Password validation
