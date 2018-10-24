@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.7
 
 WORKDIR /app
 
@@ -6,8 +6,6 @@ COPY requirements*.txt /app/
 RUN pip install -r requirements.txt
 
 ADD . /app
-
-RUN bunzip2 /app/demo/db.sql.bz2
 
 COPY --from=opbeans/opbeans-frontend:latest /app /app/opbeans/static
 
