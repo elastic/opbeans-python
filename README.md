@@ -23,10 +23,8 @@ The easiest way for local development is via docker:
 
 ## Demo Data
 
-There's a compressed SQLite database in the `demo` directory. You can run it like this:
+To get some demo data, simply run migrations
 
-    bunzip2 -k demo/db.sql.bz2
-    ./manage.py collectstatic
-    DATABASE_URL=sqlite://./demo/db.sql ./manage.py runserver
+    ./manage.py migrate
 
 There's an admin user, `barista`/`affogato`.
