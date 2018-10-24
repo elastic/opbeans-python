@@ -47,7 +47,7 @@ class Order(models.Model):
     lines = models.ManyToManyField('Product', through=OrderLine)
 
     def to_search(self):
-        order_lines = list(self.orderline_set.all())
+        order_lines = list(self.orderline_set.select_related('product').all())
         return {
             '_id': self.pk,
             'customer': {
