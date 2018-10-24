@@ -2,6 +2,9 @@ from django.conf import settings
 from django.db.models.signals import class_prepared, pre_init
 from django.apps import AppConfig
 
+import logging
+
+logger = logging.getLogger("opbeans")
 
 def add_db_prefix(sender, **kwargs):
     prefix = getattr(settings, "DB_PREFIX", None)
@@ -17,4 +20,5 @@ class DbPrefixApp(AppConfig):
     def ready(self):
         pre_init.connect(add_db_prefix)
         class_prepared.connect(add_db_prefix)
+        logger.info("CONNECTED PREFIX SIGNALS")
 
