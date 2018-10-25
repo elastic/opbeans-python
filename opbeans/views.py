@@ -42,7 +42,10 @@ def maybe_dt(view_func):
             url = other_service + request.get_full_path()
             logger.info("Proxying to %s", url)
             try:
-                other_response = requests.get(url)
+                other_response = requests.get(url, timeout=15)
+            except requests.exceptions.Timeout:
+                logger.error("Connection to %s timed out", other_service)
+                raise
             except Exception:
                 logger.error("Connection to %s failed", other_service)
                 raise
