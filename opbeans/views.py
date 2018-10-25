@@ -41,7 +41,11 @@ def maybe_dt(view_func):
                 other_service = "http://{}:3000".format(other_service)
             url = other_service + request.get_full_path()
             logger.info("Proxying to %s", url)
-            other_response = requests.get(url)
+            try:
+                other_response = requests.get(url)
+            except Exception:
+                logger.error("Connection to %s failed", other_service)
+                raise
             try:
                 content_type = other_response.headers['content-type']
             except KeyError:
