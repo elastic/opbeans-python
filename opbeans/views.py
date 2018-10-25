@@ -42,7 +42,12 @@ def maybe_dt(view_func):
             url = other_service + request.get_full_path()
             logger.info("Proxying to %s", url)
             other_response = requests.get(url)
-            return HttpResponse(other_response.content, status=other_response.status_code, content_type=other_response.headers['content-type'])
+            try:
+                content_type = other_response.headers['content-type']
+            except KeyError:
+                logger.debug("Missing content-type header from %s", other_service)
+                content_type = "text/plain"
+            return HttpResponse(other_response.content, status=other_response.status_code, content_type=content_type)
         return view_func(request, *args, **kwargs)
     return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)
 
