@@ -28,14 +28,17 @@ def maybe_dt(view_func):
     """
     Either calls the view, or randomly forwards the request to another opbeans service
     """
-    other_services = [s for s in os.environ.get("OPBEANS_SERVICES").split(",") if "opbeans-python" not in s]
+    other_services = [s for s in os.environ.get("OPBEANS_SERVICES", "").split(",") if "opbeans-python" not in s]
+    logger.info("Registered Opbeans Services: {}".format(", ".join(other_services)))
     try:
         probability = float(os.environ.get("OPBEANS_DT_PROBABILITY", 0.5))
     except ValueError:
         probability = 0.5
 
     def wrapped_view(request, *args, **kwargs):
-        if request.method == "GET" and other_services and random.random() < probability:
+        r = random.random()
+        logger.info("Rolling the dice: {:.3f} < {:.2f}? {}".format(r, probability, bool(r < probability)))
+        if request.method == "GET" and other_services and r < probability:
             other_service = random.choice(other_services)
             if not other_service.startswith("http://"):
                 other_service = "http://{}:3000".format(other_service)
