@@ -58,6 +58,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'opbeans.context_processors.rum_settings',
+                'elasticapm.contrib.django.context_processors.rum_tracing',
             ],
         },
     },
