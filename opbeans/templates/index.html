@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block head %}
+<script>window.rumConfig = {
+    serviceName: "{{ RUM_SERVICE_NAME }}",
+    serviceVersion: "{{ RUM_SERVICE_VERSION }}",
+    serverUrl: "{{ RUM_SERVER_URL }}",
+    pageLoadTraceId: "{{ apm.trace_id }}", // String
+    pageLoadSpanId: "{{ apm.span_id }}", // String
+    pageLoadSampled: {{ apm.is_sampled_js }} // Boolean
+}</script>
+{% endblock %}

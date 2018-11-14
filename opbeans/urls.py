@@ -9,8 +9,8 @@ from opbeans import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
-    url(r'^(?:dashboard|products|customers|orders).*$', TemplateView.as_view(template_name='index.html')),
+    url(r'^$', views.home),
+    url(r'^(?:dashboard|products|customers|orders).*$', views.home),
     url(r'^api/stats$', views.stats, name='stats'),
     url(r'^api/products$', views.products, name='products'),
     url(r'^api/products/top$', views.top_products, name='top-products'),
@@ -25,5 +25,4 @@ urlpatterns = [
     url(r'^api/orders/(?P<pk>[0-9]+)$', views.order, name='order-detail'),
     url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'build', 'images')}),
     url(r'^oopsie$', views.oopsie),
-    url(r'^rum-config.js$', views.rum_agent_config, name='rum-config')
 ]

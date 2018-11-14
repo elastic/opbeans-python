@@ -6,5 +6,5 @@ static/*
 .idea
 celerybeat-schedule
 opbeans/static/build
-opbeans/templates/index.html
+opbeans/templates/base.html
 client

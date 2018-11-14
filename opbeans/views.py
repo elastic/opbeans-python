@@ -1,15 +1,15 @@
 import logging
 import os
 import json
+import time
 from functools import wraps
 import random
 
-from django.apps import apps
 from django.http import JsonResponse, Http404, HttpResponse
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import available_attrs
 
@@ -28,8 +28,11 @@ def maybe_dt(view_func):
     """
     Either calls the view, or randomly forwards the request to another opbeans service
     """
-    other_services = [s for s in os.environ.get("OPBEANS_SERVICES", "").split(",") if "opbeans-python" not in s]
-    logger.info("Registered Opbeans Services: {}".format(", ".join(other_services)))
+    other_services = [s for s in os.environ.get("OPBEANS_SERVICES", "").split(",") if s and "opbeans-python" not in s]
+    if other_services:
+        logger.info("Registered Opbeans Services: {}".format(", ".join(other_services)))
+    else:
+        logger.info("No other Opbeans services detected, disabling DT ping pong")
     try:
         probability = float(os.environ.get("OPBEANS_DT_PROBABILITY", 0.5))
     except ValueError:
@@ -271,21 +274,7 @@ def oopsie(request):
     assert False
 
 
-RUM_CONFIG = {}
-
-
-def rum_agent_config(request):
-    if not RUM_CONFIG:
-        url = os.environ.get('ELASTIC_APM_JS_BASE_SERVER_URL', os.environ.get('ELASTIC_APM_JS_SERVER_URL'))
-        if not url:
-            app = apps.get_app_config('elasticapm.contrib.django')
-            url = app.client.config.server_url
-        RUM_CONFIG['elasticApmJsBaseServerUrl'] = url
-        with open(os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'package.json')) as f:
-            package_json = json.load(f)
-        service_name = os.environ.get('ELASTIC_APM_JS_BASE_SERVICE_NAME', package_json['name'])
-        service_version = os.environ.get('ELASTIC_APM_JS_BASE_SERVICE_VERSION', package_json['version'])
-        RUM_CONFIG['elasticApmJsBaseServiceName'] = service_name
-        RUM_CONFIG['elasticApmJsBaseServiceVersion'] = service_version
-
-    return render_to_response('variables.js', context={'variables': RUM_CONFIG}, content_type='text/javascript')
+def home(request):
+    with elasticapm.capture_span("hard-home-work"):
+        time.sleep(random.random() / 2.0)
+    return render(request, "index.html")
