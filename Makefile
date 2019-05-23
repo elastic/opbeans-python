@@ -1,10 +1,10 @@
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-update-frontend:
+update-frontend: ## Update opbeans-fronted repo
 	-test ! -d client && git clone https://github.com/elastic/opbeans-frontend client
 	cd client && git pull
 
-compile-frontend:
+compile-frontend: ## Compile opbeans-fronted project and copy artifacts
 	cd client && npm --no-bin-links install && npm run-script build
 	rm -rf $(ROOT_DIR)/opbeans/static && \
 	    mkdir -p $(ROOT_DIR)/opbeans/static/build && \
