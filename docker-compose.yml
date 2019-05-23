@@ -4,6 +4,7 @@ services:
     image: opbeans/opbeans-python:latest
     ports:
       - "127.0.0.1:${OPBEANS_PYTHON_PORT:-8000}:3000"
+    container_name: opbeans-python
     logging:
       driver: 'json-file'
       options:

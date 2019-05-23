@@ -10,3 +10,5 @@ demo/db.sql
 opbeans/static/build
 **/__pycache__
 celerybeat-schedule
+tests
+bats
