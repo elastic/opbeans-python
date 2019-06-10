@@ -8,3 +8,7 @@ celerybeat-schedule
 opbeans/static/build
 opbeans/templates/base.html
 client
+
+# For the BATS testing
+bats/
+target/
