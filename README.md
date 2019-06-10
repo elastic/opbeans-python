@@ -1,3 +1,5 @@
+[![Build Status](https://apm-ci.elastic.co/job/apm-agent-python/job/opbeans-python-mbp/job/master/badge/icon)](https://apm-ci.elastic.co/job/apm-agent-python/job/opbeans-python-mbp/job/master/)
+
 # Opbeans for Ponies
 
 This is an implementation of the [Opbeans Demo app](http://opbeans.com) in Django. It uses the same
