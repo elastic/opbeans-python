@@ -34,7 +34,7 @@ bats: ## Install bats in the project itself
 	@git clone https://github.com/sstephenson/bats.git
 
 prepare-test: bats ## Prepare the bats dependencies
-    @docker pull node:${LTS_ALPINE}
+	@docker pull node:${LTS_ALPINE}
 	@mkdir -p target
 	@git submodule sync
 	@git submodule update --init --recursive
@@ -42,7 +42,7 @@ prepare-test: bats ## Prepare the bats dependencies
 test: prepare-test ## Run the tests
 	@echo "Tests are in progress, please be patient"
 	@PORT=${PORT} bats/bin/bats --tap tests | tee target/results.tap
-    @docker run --rm -v "${PWD}":/usr/src/app -w /usr/src/app node:${LTS_ALPINE} \
+	@docker run --rm -v "${PWD}":/usr/src/app -w /usr/src/app node:${LTS_ALPINE} \
 			sh -c "npm install tap-xunit -g && cat target/results.tap | tap-xunit --package='co.elastic.opbeans' > target/junit-results.xml"
 
 publish: build ## Publish docker image
