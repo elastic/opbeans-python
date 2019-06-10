@@ -1,8 +1,8 @@
 ---
 - job:
-    name: apm-agent-ruby/opbeans-ruby-mbp
-    display-name: Opbeans Ruby
-    description: Opbeans Ruby
+    name: apm-agent-python/opbeans-python-mbp
+    display-name: Opbeans Python
+    description: Opbeans Python
     project-type: multibranch
     number-to-keep: '5'
     days-to-keep: '1'
@@ -15,7 +15,7 @@
         discover-pr-forks-trust: permission
         discover-pr-origin: merge-current
         discover-tags: true
-        repo: opbeans-ruby
+        repo: opbeans-python
         repo-owner: elastic
         credentials-id: 2a9602aa-ab9f-4e52-baf3-b71ca88469c7-UserAndToken
         ssh-checkout:
