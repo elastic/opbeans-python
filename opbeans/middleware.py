@@ -2,7 +2,11 @@ import uuid
 import random
 from collections import namedtuple
 
-import elasticapm
+try:
+    from elasticapm import label
+except ImportError:
+    # elastic-apm < 5.0
+    from elasticapm import tag as label
 
 
 User = namedtuple('User', ['is_authenticated', 'id', 'username', 'email', 'customer_tier'])
@@ -36,7 +40,7 @@ weights = [68, 70, 9, 55, 47, 76, 65, 96, 99, 14, 60, 34, 40, 15, 43, 31, 77, 40
 def tag_request_id_middleware(get_response):
     def middleware(request):
         __traceback_hide__ = True
-        elasticapm.tag(request_id=str(uuid.uuid4()))
+        label(request_id=str(uuid.uuid4()))
         response = get_response(request)
         return response
     return middleware
@@ -47,6 +51,6 @@ def user_middleware(get_response):
         __traceback_hide__ = True
         if not request.user.is_authenticated:
             request.user = random.choices(users, weights=weights)[0]
-            elasticapm.tag(customer_tier=request.user.customer_tier)
+            label(customer_tier=request.user.customer_tier)
         return get_response(request)
     return middleware

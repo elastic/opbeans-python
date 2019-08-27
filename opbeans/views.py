@@ -15,6 +15,11 @@ from django.utils.decorators import available_attrs
 
 import elasticapm
 from elasticapm.contrib.django.client import client
+try:
+    from elasticapm import label
+except ImportError:
+    # elastic-apm < 5.0
+    from elasticapm import tag as label
 import requests
 
 from opbeans import models as m
@@ -73,7 +78,7 @@ def stats(request):
         data = utils.stats()
         cache.set(utils.stats.cache_key, data, 60)
         from_cache = False
-    elasticapm.tag(served_from_cache=from_cache)
+    label(served_from_cache=from_cache)
     return JsonResponse(data, safe=False)
 
 
@@ -209,7 +214,7 @@ def post_order(request):
         total_amount += line['amount'] * product_obj.selling_price
 
     # store lines count in and total amount in tags
-    elasticapm.tag(
+    label(
         lines_count=len(data['lines']),
         total_amount=total_amount / 100.0,
     )
@@ -238,7 +243,7 @@ def post_order_csv(request):
             amount=amount
         )
         total_amount += amount * product_obj.selling_price
-    elasticapm.tag(
+    label(
         lines_count=i,
         total_amount=total_amount / 100.0,
     )
