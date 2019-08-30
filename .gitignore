@@ -12,3 +12,6 @@ client
 # For the BATS testing
 bats/
 target/
+
+# virtualenv
+venv/
