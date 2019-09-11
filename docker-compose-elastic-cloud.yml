@@ -23,11 +23,6 @@ services:
         -E cloud.id=${ELASTIC_CLOUD_ID}
         -E cloud.auth=${ELASTIC_CLOUD_CREDENTIALS}
 
-  postgres:
-    extends:
-      file: docker-compose.yml
-      service: postgres
-
   redis:
     extends:
       file: docker-compose.yml
@@ -38,11 +33,6 @@ services:
     depends_on:
       opbeans-python:
         condition: service_healthy
-
-  loadPgData:
-    extends:
-      file: docker-compose.yml
-      service: loadPgData
 
 volumes:
   esdata:
