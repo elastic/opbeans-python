@@ -159,22 +159,25 @@ CACHES = {
 
 ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
 
+import structlog
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(name)s %(process)d %(thread)d %(message)s'
+        "json": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.processors.JSONRenderer(),
         },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
+        "console": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.dev.ConsoleRenderer(),
         },
     },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
+            'formatter': "json" if "ENABLE_JSON_LOGGING" in os.environ else "console",
         },
         'elasticapm': {
             'class': 'elasticapm.contrib.django.handlers.LoggingHandler',
@@ -196,3 +199,32 @@ LOGGING = {
         },
     },
 }
+
+structlog_processors=[
+        structlog.stdlib.filter_by_level,
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.stdlib.add_logger_name,
+        structlog.stdlib.add_log_level,
+        structlog.stdlib.PositionalArgumentsFormatter(),
+        structlog.processors.StackInfoRenderer(),
+        structlog.processors.format_exc_info,
+        structlog.processors.UnicodeDecoder(),
+        structlog.processors.ExceptionPrettyPrinter(),
+        structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+    ]
+
+try:
+    from elasticapm.handlers.structlog import structlog_processor
+
+    structlog_processors.insert(4, structlog_processor)
+except ImportError:
+    pass
+
+
+structlog.configure(
+    processors=structlog_processors,
+    context_class=structlog.threadlocal.wrap_dict(dict),
+    logger_factory=structlog.stdlib.LoggerFactory(),
+    wrapper_class=structlog.stdlib.BoundLogger,
+    cache_logger_on_first_use=True,
+)
