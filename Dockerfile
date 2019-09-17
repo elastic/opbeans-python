@@ -15,6 +15,8 @@ RUN sed 's/<head>/<head>{% block head %}{% endblock %}/' /app/opbeans/static/bui
 RUN mkdir /app/demo \
     && DATABASE_URL="sqlite:////app/demo/db.sql" python ./manage.py migrate
 
+ENV ENABLE_JSON_LOGGING=True
+
 EXPOSE 3000
 
 CMD ["honcho", "start"]

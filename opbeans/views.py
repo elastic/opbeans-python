@@ -21,12 +21,13 @@ except ImportError:
     # elastic-apm < 5.0
     from elasticapm import tag as label
 import requests
+import structlog
 
 from opbeans import models as m
 from opbeans import utils
 from opbeans.utils import StreamingJsonResponse, iterlist
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 
 def maybe_dt(view_func):
@@ -37,7 +38,7 @@ def maybe_dt(view_func):
     if other_services:
         logger.info("Registered Opbeans Services: {}".format(", ".join(other_services)))
     else:
-        logger.info("No other Opbeans services detected, disabling DT ping pong")
+        logger.info("dt_ping_pong_disabled", reason="no_services_discovered")
     try:
         probability = float(os.environ.get("OPBEANS_DT_PROBABILITY", 0.5))
     except ValueError:
@@ -45,25 +46,25 @@ def maybe_dt(view_func):
 
     def wrapped_view(request, *args, **kwargs):
         r = random.random()
-        logger.info("Rolling the dice: {:.3f} < {:.2f}? {}".format(r, probability, bool(r < probability)))
+        logger.info("dt_ping_pong_dice_throw", random_val=r, probability=probability, passed=bool(r < probability))
         if request.method == "GET" and other_services and r < probability:
             other_service = random.choice(other_services)
             if not other_service.startswith("http://"):
                 other_service = "http://{}:3000".format(other_service)
             url = other_service + request.get_full_path()
-            logger.info("Proxying to %s", url)
+            logger.info("dt_ping_pong_proxy", url=url)
             try:
                 other_response = requests.get(url, timeout=15)
             except requests.exceptions.Timeout:
-                logger.error("Connection to %s timed out", other_service)
+                logger.error("dt_ping_pong_timeout", service=other_service)
                 raise
             except Exception:
-                logger.error("Connection to %s failed", other_service)
+                logger.error("dt_ping_pong_connection_failed", service=other_service)
                 raise
             try:
                 content_type = other_response.headers['content-type']
             except KeyError:
-                logger.debug("Missing content-type header from %s", other_service)
+                logger.debug("dt_ping_pong_missing_content_type", service=other_service)
                 content_type = "text/plain"
             return HttpResponse(other_response.content, status=other_response.status_code, content_type=content_type)
         return view_func(request, *args, **kwargs)
@@ -177,7 +178,7 @@ def customer(request, pk):
             'postal_code', 'city', 'country'
         )[0]
     except IndexError:
-        logger.warning('Customer with ID %s not found', pk, exc_info=True)
+        logger.warning('customer_not_found', customer_id=pk, exc_info=True)
         raise Http404()
     return JsonResponse(customer_obj)
 

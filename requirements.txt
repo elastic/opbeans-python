@@ -18,4 +18,6 @@ urllib3==1.24.1
 vine==1.1.4
 whitenoise==4.1.2
 requests==2.21.0
+structlog==19.1.0
+colorama==0.4.1
 psutil
