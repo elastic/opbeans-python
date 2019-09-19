@@ -19,4 +19,4 @@ ENV ENABLE_JSON_LOGGING=True
 
 EXPOSE 3000
 
-CMD ["honcho", "start", "--no-prefix"]
+CMD ["honcho", "--no-prefix", "start"]
