@@ -277,7 +277,14 @@ def order(request, pk):
 
 def oopsie(request):
     client.capture_message('About to blow up!')
-    assert False
+    try:
+        1 / 0
+    except ZeroDivisionError:
+        try:
+            1 + "a"
+        except TypeError:
+            raise AssertionError("oh no")
+
 
 
 def home(request):
