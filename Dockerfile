@@ -16,6 +16,7 @@ RUN mkdir /app/demo \
     && DATABASE_URL="sqlite:////app/demo/db.sql" python ./manage.py migrate
 
 ENV ENABLE_JSON_LOGGING=True
+ENV ELASTIC_APM_USE_STRUCTLOG=True
 
 EXPOSE 3000
 

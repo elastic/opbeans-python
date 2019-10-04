@@ -4,7 +4,7 @@ __pycache__
 demo/db.sql
 static/*
 .idea
-celerybeat-schedule
+celerybeat-schedule*
 opbeans/static/build
 opbeans/templates/base.html
 client
