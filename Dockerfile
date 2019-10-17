@@ -1,6 +1,15 @@
-FROM python:3.6
+FROM python:3.6-slim
 
 WORKDIR /app
+
+## Required as the slim version is too tiny
+RUN apt-get -qq update \
+ && apt-get -qq install -y \
+	gcc \
+    libc-dev \
+    bzip2 \
+	--no-install-recommends \
+ && rm -rf /var/lib/apt/lists/*
 
 COPY requirements*.txt /app/
 RUN pip install -r requirements.txt
