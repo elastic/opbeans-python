@@ -8,6 +8,7 @@ RUN apt-get -qq update \
 	gcc \
     libc-dev \
     bzip2 \
+    curl \
 	--no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
