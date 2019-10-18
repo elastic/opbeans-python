@@ -1,23 +1,25 @@
-FROM python:3.6-slim
+FROM python:3.6
 
 WORKDIR /app
 
-## Required as the slim version is too tiny
+RUN python -m venv /app/venv
+COPY . /app
+RUN /app/venv/bin/pip install -r requirements.txt
+
+FROM python:3.6-slim
+COPY --from=0 /app /app
+RUN mkdir -p /app/opbeans/static/
+COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
+WORKDIR /app
+ENV PATH="/app/venv/bin:$PATH"
+
+## curl is required for healthcheck, bzip2 to unzip the sqlite database
 RUN apt-get -qq update \
  && apt-get -qq install -y \
-	gcc \
-    libc-dev \
     bzip2 \
     curl \
 	--no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
-
-COPY requirements*.txt /app/
-RUN pip install -r requirements.txt
-
-COPY . /app
-
-COPY --from=opbeans/opbeans-frontend:latest /app /app/opbeans/static
 
 RUN sed 's/<head>/<head>{% block head %}{% endblock %}/' /app/opbeans/static/build/index.html | sed 's/<script type="text\/javascript" src="\/rum-config.js"><\/script>//' > /app/opbeans/templates/base.html
 
