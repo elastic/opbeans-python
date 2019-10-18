@@ -10,6 +10,9 @@ FROM python:3.6-slim
 COPY --from=0 /app /app
 RUN mkdir -p /app/opbeans/static/
 COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
+## To get the client name/version from package.json
+COPY --from=opbeans/opbeans-frontend:latest /app/package.json /app/opbeans/static/package.json
+
 WORKDIR /app
 ENV PATH="/app/venv/bin:$PATH"
 
