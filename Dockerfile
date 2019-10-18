@@ -2,12 +2,27 @@ FROM python:3.6
 
 WORKDIR /app
 
-COPY requirements*.txt /app/
-RUN pip install -r requirements.txt
-
+RUN python -m venv /app/venv
 COPY . /app
+RUN /app/venv/bin/pip install -r requirements.txt
 
-COPY --from=opbeans/opbeans-frontend:latest /app /app/opbeans/static
+FROM python:3.6-slim
+COPY --from=0 /app /app
+RUN mkdir -p /app/opbeans/static/
+COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
+## To get the client name/version from package.json
+COPY --from=opbeans/opbeans-frontend:latest /app/package.json /app/opbeans/static/package.json
+
+WORKDIR /app
+ENV PATH="/app/venv/bin:$PATH"
+
+## curl is required for healthcheck, bzip2 to unzip the sqlite database
+RUN apt-get -qq update \
+ && apt-get -qq install -y \
+    bzip2 \
+    curl \
+	--no-install-recommends \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN sed 's/<head>/<head>{% block head %}{% endblock %}/' /app/opbeans/static/build/index.html | sed 's/<script type="text\/javascript" src="\/rum-config.js"><\/script>//' > /app/opbeans/templates/base.html
 

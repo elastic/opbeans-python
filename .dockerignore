@@ -1,10 +1,15 @@
+.ci
+.dockerignore
+.editorconfig
 .git
 .gitignore
+.gitmodules
 .vscode
 .idea
+docker-compose*.yml
+Dockerfile
 Makefile
 README.md
-Dockerfile
 client
 demo/db.sql
 opbeans/static/build
@@ -12,3 +17,4 @@ opbeans/static/build
 celerybeat-schedule
 tests
 bats
+target
