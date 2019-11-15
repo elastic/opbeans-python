@@ -15,6 +15,7 @@ from opbeans import utils, models, documents
 @task()
 def update_stats():
     if random.random() > 0.8:
+        dict_for_truncation = {k: k for k in range(500)}
         assert False, "Bad luck!"
     cache.set(utils.stats.cache_key, utils.stats(), 60)
 
