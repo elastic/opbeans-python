@@ -9,8 +9,8 @@ services:
     logging:
       driver: 'json-file'
       options:
-          max-size: '2m'
-          max-file: '5'
+        max-size: '2m'
+        max-file: '5'
     environment:
       - ELASTIC_APM_SERVICE_NAME=${ELASTIC_APM_SERVICE_NAME:-opbeans-python}
       - ELASTIC_APM_SERVER_URL=${ELASTIC_APM_SERVER_URL:-http://apm-server:8200}
@@ -23,6 +23,7 @@ services:
       - ELASTIC_APM_SOURCE_LINES_SPAN_APP_FRAMES=5
       - ELASTIC_APM_SOURCE_LINES_ERROR_LIBRARY_FRAMES
       - ELASTIC_APM_SOURCE_LINES_SPAN_LIBRARY_FRAMES
+      - ELASTIC_APM_ENVIRONMENT=production
       - REDIS_URL=redis://redis:6379
       - ELASTICSEARCH_URL=http://elasticsearch:9200
       - DATABASE_URL=sqlite:////app/demo/db.sql
@@ -64,8 +65,8 @@ services:
     logging:
       driver: 'json-file'
       options:
-          max-size: '2m'
-          max-file: '5'
+        max-size: '2m'
+        max-file: '5'
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -92,8 +93,8 @@ services:
     logging:
       driver: 'json-file'
       options:
-          max-size: '2m'
-          max-file: '5'
+        max-size: '2m'
+        max-file: '5'
     ports:
       - "127.0.0.1:${ELASTICSEARCH_PORT:-9200}:9200"
     healthcheck:
@@ -113,8 +114,8 @@ services:
     logging:
       driver: 'json-file'
       options:
-          max-size: '2m'
-          max-file: '5'
+        max-size: '2m'
+        max-file: '5'
     healthcheck:
       test: ["CMD", "curl", "--write-out", "'HTTP %{http_code}'", "--silent", "--output", "/dev/null", "http://kibana:5601/"]
       retries: 10
@@ -130,8 +131,8 @@ services:
     logging:
       driver: 'json-file'
       options:
-          max-size: '2m'
-          max-file: '5'
+        max-size: '2m'
+        max-file: '5'
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
