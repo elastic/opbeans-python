@@ -15,3 +15,5 @@ target/
 
 # virtualenv
 venv/
+
+requirements.txtbck
