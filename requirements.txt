@@ -5,7 +5,7 @@ celery==4.2.1
 certifi
 dj-database-url==0.5.0
 django-redis==4.10.0
-elastic-apm==5.4.1
+elastic-apm==5.4.2
 elasticsearch==6.3.1
 elasticsearch-dsl==6.3.1
 gunicorn==19.9.0
