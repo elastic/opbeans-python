@@ -11,7 +11,6 @@ from django.core.cache import cache
 from django.db import models
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import available_attrs
 
 import elasticapm
 from elasticapm.contrib.django.client import client
@@ -68,7 +67,7 @@ def maybe_dt(view_func):
                 content_type = "text/plain"
             return HttpResponse(other_response.content, status=other_response.status_code, content_type=content_type)
         return view_func(request, *args, **kwargs)
-    return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)
+    return wraps(view_func)(wrapped_view)
 
 
 @maybe_dt
