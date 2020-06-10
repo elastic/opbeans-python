@@ -2,9 +2,10 @@ import os
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 from django.views.static import serve
-from django.views.generic import TemplateView
 
+from graphene_django.views import GraphQLView
 from opbeans import views
 
 urlpatterns = [
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^api/orders/(?P<pk>[0-9]+)$', views.order, name='order-detail'),
     url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'build', 'images')}),
     url(r'^oopsie$', views.oopsie),
+    url(r'^graphql$', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]

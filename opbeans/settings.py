@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'graphene_django',
     'opbeans',
 ]
 
@@ -228,3 +229,7 @@ structlog.configure(
     wrapper_class=structlog.stdlib.BoundLogger,
     cache_logger_on_first_use=True,
 )
+
+GRAPHENE = {
+    'SCHEMA': 'opbeans.schema.schema'
+}

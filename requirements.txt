@@ -22,3 +22,4 @@ requests==2.23.0
 structlog==20.1.0
 colorama==0.4.3
 psutil==5.7.0
+graphene-django==2.10.1
