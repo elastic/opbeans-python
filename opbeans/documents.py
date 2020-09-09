@@ -1,7 +1,7 @@
-from elasticsearch_dsl import DocType, Integer, Keyword, Text, Object, Date, Float
+from elasticsearch_dsl import Document, Integer, Keyword, Text, Object, Date, Float
 
 
-class Customer(DocType):
+class Customer(Document):
     full_name = Text(analyzer='snowball')
     email = Text(fields={'raw': Keyword()})
     company_name = Text(analyzer='snowball')
@@ -13,7 +13,7 @@ class Customer(DocType):
 
     class Meta:
         index = 'py-customers'
-        
+
 
 customer_field = Object(properties={
     'full_name': Text(analyzer='snowball'),
@@ -21,7 +21,7 @@ customer_field = Object(properties={
 })
 
 
-class Order(DocType):
+class Order(Document):
     customer = customer_field
     created_at = Date()
     data = Object(properties={
