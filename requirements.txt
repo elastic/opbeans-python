@@ -1,24 +1,24 @@
-Django==3.0.7
-amqp==2.6.0
+Django==3.1.1
+amqp==2.6.1 # can't be upgraded until Celery 5 is released
 billiard==3.6.3.0
-celery==4.4.4
+celery==4.4.7
 future==0.18.2
 certifi
 dj-database-url==0.5.0
 django-redis==4.12.1
 elastic-apm==5.8.1
-elasticsearch==7.7.1
+elasticsearch==7.9.1
 elasticsearch-dsl==7.2.1
 gunicorn==20.0.4
 honcho==1.0.1
-kombu==4.6.10
-psycopg2-binary==2.8.5
+kombu==4.6.11 # can't be upgraded until Celery 5 is released
+psycopg2-binary==2.8.6
 pytz
 redis==3.5.3
-urllib3==1.25.9
-vine==1.3.0
-whitenoise==5.1.0
-requests==2.23.0
+urllib3==1.25.10
+vine==1.3.0 # can't be upgraded until Celery 5 is released
+whitenoise==5.2.0
+requests==2.24.0
 structlog==20.1.0
 colorama==0.4.3
-psutil==5.7.0
+psutil==5.7.2

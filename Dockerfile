@@ -1,12 +1,13 @@
-FROM python:3.6
+FROM python:3.8
 
 WORKDIR /app
 
 RUN python -m venv /app/venv
 COPY . /app
-RUN /app/venv/bin/pip install -r requirements.txt
+RUN /app/venv/bin/pip install -U pip setuptools && \
+    /app/venv/bin/pip --use-feature=2020-resolver install -r requirements.txt
 
-FROM python:3.6-slim
+FROM python:3.8-slim
 COPY --from=0 /app /app
 RUN mkdir -p /app/opbeans/static/
 COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
@@ -27,7 +28,7 @@ RUN apt-get -qq update \
 RUN sed 's/<head>/<head>{% block head %}{% endblock %}/' /app/opbeans/static/build/index.html | sed 's/<script type="text\/javascript" src="\/rum-config.js"><\/script>//' > /app/opbeans/templates/base.html
 
 # init demo database
-RUN mkdir /app/demo \
+RUN mkdir -p /app/demo \
     && DATABASE_URL="sqlite:////app/demo/db.sql" python ./manage.py migrate
 
 ENV ENABLE_JSON_LOGGING=True

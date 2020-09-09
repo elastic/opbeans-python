@@ -26,18 +26,21 @@ def load_fixture(apps, schema_editor):
     }
 
     file = os.path.join(settings.BASE_DIR, "opbeans/migrations/initial_data.json")
-    subprocess.check_call(["bunzip2", "-k", file + ".bz2"])
-    with open(file) as f:
-        data = json.load(f)
-    for item in data:
-        model = _get_model(item["model"])
-        for orig, rename in renames.items():
-            if orig in item["fields"]:
-                item["fields"][rename] = item["fields"].pop(orig)
-        models[model].append(model(id=item["pk"], **item["fields"]))
-    for model, bulk_list in models.items():
-        model.objects.bulk_create(bulk_list)
-    os.unlink(file)
+    try:
+        subprocess.check_call(["bunzip2", "-k", file + ".bz2"])
+        with open(file) as f:
+            data = json.load(f)
+        for item in data:
+            model = _get_model(item["model"])
+            for orig, rename in renames.items():
+                if orig in item["fields"]:
+                    item["fields"][rename] = item["fields"].pop(orig)
+            models[model].append(model(id=item["pk"], **item["fields"]))
+        for model, bulk_list in models.items():
+            model.objects.bulk_create(bulk_list)
+    finally:
+        if os.path.exists(file):
+            os.unlink(file)
     tables = tuple(m._meta.db_table for m in models.keys())
 
     # recalculate sequences in postgres
