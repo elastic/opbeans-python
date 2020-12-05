@@ -16,11 +16,18 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   health_check:
-   runs-on: ubuntu-latest
-   steps:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-      - run: python -m pip install -r requirements.txt && py.test -slvvv integration_test/integration_test.py
+      - run:  python -m pip install -r requirements.txt && py.test -slvvv integration_test/integration_test.py
+
+  # deploy to aws
+        #aws cloudformataion build https://github.com/marketplace/actions/aws-cloudformation-deploy-cloudformation-stack-action-for-github-actions
+        #aws ecs deploy? https://github.com/aws-actions/amazon-ecs-deploy-task-definition
+
+  # notify build fail
+
