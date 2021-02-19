@@ -1,5 +1,5 @@
 import os
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.views.static import serve
@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^api/orders/(?P<pk>[0-9]+)$', views.order, name='order-detail'),
     url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'build', 'images')}),
     url(r'^oopsie$', views.oopsie),
+    url('', include('django_prometheus.urls')),
 ]
