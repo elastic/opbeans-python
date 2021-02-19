@@ -302,3 +302,15 @@ def home(request):
     with elasticapm.capture_span("hard-home-work"):
         time.sleep(random.random() / 2.0)
     return render(request, "index.html")
+
+
+def label_with_delay(request):
+    labels = {}
+    for k, v in request.GET.items():
+        if k != "delay":
+            labels[k] = v
+    with elasticapm.capture_span("delayed-and-labeled", labels=labels):
+        if "delay" in request.GET:
+            time.sleep(float(request.GET["delay"]) / 1000.0)
+    return HttpResponse("OK")
+
