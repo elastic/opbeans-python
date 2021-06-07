@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9.5
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY . /app
 RUN /app/venv/bin/pip install -U pip setuptools && \
     /app/venv/bin/pip --use-feature=2020-resolver install -r requirements.txt
 
-FROM python:3.8-slim
+FROM python:3.9.5
 COPY --from=0 /app /app
 RUN mkdir -p /app/opbeans/static/
 COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
