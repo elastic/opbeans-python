@@ -11,7 +11,7 @@ elasticsearch==7.9.1
 elasticsearch-dsl==7.2.1
 gunicorn==20.0.4
 honcho==1.0.1
-kombu==4.6.11 # can't be upgraded until Celery 5 is released
+kombu==5.1.0 # can't be upgraded until Celery 5 is released
 psycopg2-binary==2.8.6
 pytz
 redis==3.5.3
