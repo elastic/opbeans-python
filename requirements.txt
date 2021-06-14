@@ -1,7 +1,7 @@
 Django==3.2.4
 amqp==2.6.1 # can't be upgraded until Celery 5 is released
 billiard==3.6.3.0
-celery==4.4.7
+celery==5.1.0
 future==0.18.2
 certifi
 dj-database-url==0.5.0
