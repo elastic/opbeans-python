@@ -13,7 +13,7 @@ def rum_settings(request):
         return RUM_CONFIG
     url = os.environ.get('ELASTIC_APM_JS_SERVER_URL')
     if not url:
-        app = apps.get_app_config('elasticapm.contrib.django')
+        app = apps.get_app_config('elasticapm')
         url = app.client.config.server_url
     with open(os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'package.json')) as f:
         package_json = json.load(f)
