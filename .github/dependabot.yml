@@ -1,0 +1,21 @@
+---
+version: 2
+updates:
+  # Enable version updates for python
+  - package-ecosystem: "pip"
+    # Look for `requirements.txt` file in the `root` directory
+    directory: "/"
+    # Check for updates once a week
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "elastic/apm-agent-python"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    # Check for updates once a week
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "elastic/apm-agent-python"
