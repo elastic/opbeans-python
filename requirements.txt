@@ -1,5 +1,5 @@
 Django==3.2.4
-amqp==2.6.1 # can't be upgraded until Celery 5 is released
+amqp==5.0.6 # can't be upgraded until Celery 5 is released
 billiard==3.6.3.0
 celery==4.4.7
 future==0.18.2
