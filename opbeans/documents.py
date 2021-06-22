@@ -11,8 +11,8 @@ class Customer(Document):
     country = Text(analyzer='snowball', fields={'raw': Keyword()})
     total_orders = Integer()
 
-    class Meta:
-        index = 'py-customers'
+    class Index:
+        name = 'py-customers'
 
 
 customer_field = Object(properties={
@@ -30,5 +30,5 @@ class Order(Document):
         'margin': Float(),
     })
 
-    class Meta:
-        index = 'py-orders'
+    class Index:
+        name = 'py-orders'
