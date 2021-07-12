@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY requirements.txt /app
 RUN /app/venv/bin/pip install -U pip setuptools && \
     /app/venv/bin/pip install -r requirements.txt
 
-FROM python:3.8-slim
+FROM python:3.9-slim
 COPY . /app
 COPY --from=0 /app/venv /app/venv
 RUN mkdir -p /app/opbeans/static/
@@ -41,7 +41,7 @@ LABEL \
     org.label-schema.schema-version="1.0" \
     org.label-schema.vendor="Elastic" \
     org.label-schema.name="opbeans-python" \
-    org.label-schema.version="6.2.3" \
+    org.label-schema.version="6.3.2" \
     org.label-schema.url="https://hub.docker.com/r/opbeans/opbeans-python" \
     org.label-schema.vcs-url="https://github.com/elastic/opbeans-python" \
     org.label-schema.license="MIT"
