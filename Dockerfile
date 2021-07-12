@@ -3,12 +3,13 @@ FROM python:3.9
 WORKDIR /app
 
 RUN python -m venv /app/venv
-COPY . /app
+COPY requirements.txt /app
 RUN /app/venv/bin/pip install -U pip setuptools && \
-    /app/venv/bin/pip --use-feature=2020-resolver install -r requirements.txt
+    /app/venv/bin/pip install -r requirements.txt
 
 FROM python:3.9-slim
-COPY --from=0 /app /app
+COPY . /app
+COPY --from=0 /app/venv /app/venv
 RUN mkdir -p /app/opbeans/static/
 COPY --from=opbeans/opbeans-frontend:latest /app/build /app/opbeans/static/build
 ## To get the client name/version from package.json

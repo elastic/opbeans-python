@@ -1,10 +1,10 @@
-import logging
 import os
 import json
 import time
 from functools import wraps
 import random
 
+import prometheus_client
 from django.http import JsonResponse, Http404, HttpResponse
 from django.conf import settings
 from django.core.cache import cache
@@ -82,10 +82,17 @@ def stats(request):
     return JsonResponse(data, safe=False)
 
 
+random_summary = prometheus_client.Summary("random_summary", "Random summary", ["a"])
+random_counter = prometheus_client.Counter("random_counter", "Random counter", ["a"])
+random_gauge = prometheus_client.Gauge("random_gauge", "Random gauge", ["a"])
+
 @maybe_dt
 def products(request):
     product_list = m.Product.objects.all()
 
+    random_summary.labels(a=random.choice("xyz")).observe(random.randint(0, 100))
+    random_counter.labels(a=random.choice("xyz")).inc(random.randint(0, 5))
+    random_gauge.labels(a=random.choice("xzy")).set(random.random()*100)
     data = iterlist({
         'id': elem.id,
         'sku': elem.sku,
@@ -195,6 +202,9 @@ def orders(request):
         order_dict['customer_name'] = order_dict.pop('customer__full_name')
     return JsonResponse(order_list, safe=False)
 
+line_item_counter = prometheus_client.Counter("opbeans_python_line_items", "Counter of line items")
+order_summary = prometheus_client.Summary("opbeans_python_orders", "Summary of orders and total order values")
+
 
 def post_order(request):
     data = json.loads(request.body)
@@ -218,6 +228,8 @@ def post_order(request):
         lines_count=len(data['lines']),
         total_amount=total_amount / 100.0,
     )
+    line_item_counter.inc(len(data['lines']))
+    order_summary.observe(total_amount / 100.0)
 
     # store customer in transaction custom data
     elasticapm.set_custom_context({

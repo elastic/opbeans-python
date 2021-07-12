@@ -28,9 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'opbeans',
+    'django_prometheus',
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'elasticapm.contrib.django.middleware.TracingMiddleware',
     'elasticapm.contrib.django.middleware.Catch404Middleware',
     'opbeans.middleware.tag_request_id_middleware',
@@ -43,6 +45,7 @@ MIDDLEWARE = [
     'opbeans.middleware.user_middleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'opbeans.urls'
@@ -119,6 +122,7 @@ ELASTIC_APM = {
     "DEBUG": True,
     "SERVICE_NAME": os.environ.get('ELASTIC_APM_SERVICE_NAME', 'opbeans-python'),
     "TRANSACTION_SEND_FREQ": 5,
+    "PROMETHEUS_METRICS": True,
 }
 
 CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')

@@ -1,5 +1,5 @@
 import os
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.views.static import serve
@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^images/(?P<path>.*)$', serve, kwargs={'document_root': os.path.join(settings.BASE_DIR, 'opbeans', 'static', 'build', 'images')}),
     url(r'^oopsie$', views.oopsie),
     url(r'^labeldelay$', views.label_with_delay),
+    url('', include('django_prometheus.urls')),
 ]
