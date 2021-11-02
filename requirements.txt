@@ -10,7 +10,7 @@ elastic-apm==6.6.0
 elasticsearch==7.15.1
 elasticsearch-dsl==7.4.0
 gunicorn==20.1.0
-honcho==1.0.1
+honcho==1.1.0
 kombu==5.1.0
 psycopg2-binary==2.9.1
 pytz
