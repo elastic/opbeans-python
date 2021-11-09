@@ -3,24 +3,26 @@ import random
 from django.core.cache import cache
 from django.db import models as m
 
-from celery.decorators import task
+import elasticapm
 from elasticsearch import TransportError
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
 
 from opbeans import utils, models, documents
+from opbeans.celery import app
 
-
-@task()
+@app.task()
 def update_stats():
     if random.random() > 0.8:
         dict_for_truncation = {k: k for k in range(500)}
         assert False, "Bad luck!"
+    elasticapm.label(a="x", b="y")
+    elasticapm.set_custom_context({"a": "x", "b": "y"})
     cache.set(utils.stats.cache_key, utils.stats(), 60)
 
 
-@task()
+@app.task()
 def sync_customers():
     customer_docs = []
     for customer in models.Customer.objects.annotate(total_orders=m.Count('orders')).order_by('pk')[50:]:
@@ -28,7 +30,7 @@ def sync_customers():
     bulk(connections.get_connection(), customer_docs)
 
 
-@task()
+@app.task()
 def sync_orders():
     highest_id = None
     try:
