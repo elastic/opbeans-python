@@ -25,6 +25,7 @@ import structlog
 from opbeans import models as m
 from opbeans import utils
 from opbeans.utils import StreamingJsonResponse, iterlist
+from opbeans import tasks
 
 logger = structlog.get_logger(__name__)
 
@@ -236,6 +237,7 @@ def post_order(request):
         'customer_name': customer_obj.full_name,
         'customer_email': customer_obj.email,
     })
+    tasks.update_stats.delay()
     return JsonResponse({'id': order_obj.pk})
 
 
