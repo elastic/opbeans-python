@@ -195,12 +195,16 @@ def orders(request):
         # set transaction name to post_order
         elasticapm.set_transaction_name('POST opbeans.views.post_order')
         return post_order(request)
-    order_list = list(m.Order.objects.values(
-        'id', 'customer_id', 'customer__full_name', 'created_at'
-    )[:1000])
-    for order_dict in order_list:
-        order_dict['customer_name'] = order_dict.pop('customer__full_name')
-    return JsonResponse(order_list, safe=False)
+    order_list = list(m.Order.objects.all()[:1000])
+    with elasticapm.capture_span("iterate_orders"):
+        orders = [
+            {"id": order.id,
+             "customer_id": order.customer_id,
+             "customer_name": order.customer.full_name,
+             "created_at": order.created_at
+             } for order in order_list
+        ]
+    return JsonResponse(orders, safe=False)
 
 line_item_counter = prometheus_client.Counter("opbeans_python_line_items", "Counter of line items")
 order_summary = prometheus_client.Summary("opbeans_python_orders", "Summary of orders and total order values")
