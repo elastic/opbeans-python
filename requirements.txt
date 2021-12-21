@@ -22,5 +22,5 @@ requests==2.26.0
 structlog==21.5.0
 colorama==0.4.4
 psutil==5.8.0
-django-prometheus==2.1.0
+django-prometheus==2.2.0
 prometheus-client==0.12.0
