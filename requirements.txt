@@ -1,7 +1,7 @@
 Django==3.2.10
 amqp==5.0.9
 billiard==3.6.4.0
-celery==5.2.1
+celery==5.2.3
 future==0.18.2
 certifi
 dj-database-url==0.5.0
