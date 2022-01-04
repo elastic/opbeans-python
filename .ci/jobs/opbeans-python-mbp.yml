@@ -10,7 +10,8 @@
     script-path: .ci/Jenkinsfile
     scm:
     - github:
-        branch-discovery: all
+        ## no-pr skips all the branches in the origin that match with a PR.
+        branch-discovery: no-pr
         discover-pr-forks-strategy: merge-current
         discover-pr-forks-trust: permission
         discover-pr-origin: merge-current
@@ -18,6 +19,7 @@
         repo: opbeans-python
         repo-owner: elastic
         credentials-id: 2a9602aa-ab9f-4e52-baf3-b71ca88469c7-UserAndToken
+        head-filter-regex: '^(main|PR-.*|[5-9]\.x|v[0-9].*)$'
         ssh-checkout:
           credentials: f6c7695a-671e-4f4f-a331-acdce44ff9ba
         build-strategies:
