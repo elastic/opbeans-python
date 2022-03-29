@@ -10,6 +10,10 @@ updates:
       interval: "weekly"
     reviewers:
       - "elastic/apm-agent-python"
+    ignore:
+      - dependency-name: "elasticsearch"  # ignore until elasticsearch-dsl is updated for 8.0
+        versions: [">=8.0.0"]
+
 
   # Enable version updates for Docker
   - package-ecosystem: "docker"
