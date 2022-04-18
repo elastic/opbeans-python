@@ -1,5 +1,5 @@
 django==4.0.4
-amqp==5.1.0
+amqp==5.1.1
 billiard==3.6.4.0
 celery==5.2.6
 future==0.18.2
