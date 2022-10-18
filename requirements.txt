@@ -22,4 +22,4 @@ structlog==22.1.0
 colorama==0.4.5
 psutil==5.9.2
 django-prometheus==2.2.0
-prometheus-client==0.14.1
+prometheus-client==0.15.0
