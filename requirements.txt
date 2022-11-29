@@ -13,7 +13,7 @@ honcho==1.1.0
 kombu==5.2.4
 psycopg2-binary==2.9.5
 pytz
-redis==4.3.4
+redis==4.3.5
 urllib3==1.26.12
 vine==5.0.0
 whitenoise==6.2.0
