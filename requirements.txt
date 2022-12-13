@@ -3,7 +3,7 @@ amqp==5.1.1
 celery==5.2.7
 future==0.18.2
 certifi
-dj-database-url==1.1.0
+dj-database-url==1.2.0
 django-redis==5.2.0
 elastic-apm==6.13.2
 elasticsearch==7.17.8
