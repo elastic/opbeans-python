@@ -1,0 +1,60 @@
+---
+## Workflow to periodically check if there is an available newer APM agent version, e.g.
+## "1.2.3". If so, then update to it.
+name: Bump elastic-apm to latest version
+
+title: Bump elastic-apm to latest version
+
+scms:
+  githubConfig:
+    kind: github
+    spec:
+      user: '{{ requiredEnv "GIT_USER" }}'
+      email: '{{ requiredEnv "GIT_EMAIL" }}'
+      owner: elastic
+      repository: opbeans-python
+      token: '{{ requiredEnv "GITHUB_TOKEN" }}'
+      username: '{{ requiredEnv "GIT_USER" }}'
+      branch: main
+
+actions:
+  opbeans-python:
+    kind: github/pullrequest
+    scmid: githubConfig
+    spec:
+      automerge: false
+      labels:
+        - dependencies
+
+sources:
+  elastic-apm-agent-python:
+    kind: githubrelease
+    spec:
+      owner: elastic
+      repository: apm-agent-python
+      token: '{{ requiredEnv "GITHUB_TOKEN" }}'
+      username: '{{ requiredEnv "GIT_USER" }}'
+      versionfilter:
+        kind: semver
+    transformers:
+      - trimprefix: "v"
+
+targets:
+  dockerfile:
+    name: Set org.label-schema.version in Dockerfile
+    sourceid: elastic-apm-agent-python
+    scmid: githubConfig
+    kind: file
+    spec:
+      file: Dockerfile
+      matchpattern: 'org\.label-schema\.version="(\d+.\d+.\d+)"'
+      replacepattern: org.label-schema.version="{{ source `elastic-apm-agent-python` }}"
+  requirements_txt:
+    name: Install new elastic-apm pip dependency version
+    sourceid: elastic-apm-agent-python
+    scmid: githubConfig
+    kind: file
+    spec:
+      file: requirements.txt
+      matchpattern: 'elastic-apm==(\d+.\d+.\d+)'
+      replacepattern: elastic-apm=={{ source `elastic-apm-agent-python` }}
