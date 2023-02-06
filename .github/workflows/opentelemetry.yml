@@ -7,6 +7,8 @@ on:
       - test
       - test-reporter
       - release
+      - create-tag
+      - bump-version
     types: [completed]
 
 jobs:
