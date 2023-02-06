@@ -24,6 +24,6 @@ jobs:
           ELASTIC_APM_VERSION="v$(cat requirements.txt | grep "elastic-apm==" | awk 'BEGIN { FS = "==" }; { print $2 }')"
           # if the tag does not exist
           if [[ ! $(git tag -l "${ELASTIC_APM_VERSION}") ]]; then
-            git tag ${ELASTIC_APM_NODE_VERSION}
+            git tag ${ELASTIC_APM_VERSION}
             git push origin "refs/tags/${ELASTIC_APM_VERSION}"
           fi
