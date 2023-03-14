@@ -1,4 +1,4 @@
-django==4.1.6
+django==4.1.7
 amqp==5.1.1
 celery==5.2.7
 future==0.18.3
@@ -7,16 +7,16 @@ dj-database-url==1.2.0
 django-redis==5.2.0
 elastic-apm==6.15.1
 elasticsearch==7.17.9
-elasticsearch-dsl==7.4.0
+elasticsearch-dsl==7.4.1
 gunicorn==20.1.0
 honcho==1.1.0
 kombu==5.2.4
 psycopg2-binary==2.9.5
 pytz
 redis==4.5.1
-urllib3==1.26.14
+urllib3==1.26.15
 vine==5.0.0
-whitenoise==6.3.0
+whitenoise==6.4.0
 requests==2.28.2
 structlog==22.3.0
 colorama==0.4.6
