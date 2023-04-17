@@ -20,6 +20,6 @@ whitenoise==6.4.0
 requests==2.28.2
 structlog==23.1.0
 colorama==0.4.6
-psutil==5.9.4
+psutil==5.9.5
 django-prometheus==2.2.0
 prometheus-client==0.16.0
