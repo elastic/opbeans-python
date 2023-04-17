@@ -1,4 +1,4 @@
-FROM python:3.11.2
+FROM python:3.11.3
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY requirements.txt /app
 RUN /app/venv/bin/pip install -U pip setuptools && \
     /app/venv/bin/pip install -r requirements.txt
 
-FROM python:3.11.2-slim
+FROM python:3.11.3-slim
 COPY . /app
 COPY --from=0 /app/venv /app/venv
 RUN mkdir -p /app/opbeans/static/
