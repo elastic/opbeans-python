@@ -17,7 +17,7 @@ redis==4.5.4
 urllib3==1.26.15
 vine==5.0.0
 whitenoise==6.4.0
-requests==2.28.2
+requests==2.29.0
 structlog==23.1.0
 colorama==0.4.6
 psutil==5.9.5
