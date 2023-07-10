@@ -1,4 +1,4 @@
-django==4.2.2
+django==4.2.3
 amqp==5.1.1
 celery==5.3.1
 future==0.18.3
@@ -13,7 +13,7 @@ honcho==1.1.0
 kombu==5.3.1
 psycopg2-binary==2.9.6
 pytz
-redis==4.5.5
+redis==4.6.0
 urllib3==1.26.16
 vine==5.0.0
 whitenoise==6.5.0
