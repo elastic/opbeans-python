@@ -8,7 +8,7 @@ django-redis==5.3.0
 elastic-apm==6.18.0
 elasticsearch==7.17.9
 elasticsearch-dsl==7.4.1
-gunicorn==20.1.0
+gunicorn==21.2.0
 honcho==1.1.0
 kombu==5.3.1
 psycopg2-binary==2.9.6
@@ -22,4 +22,4 @@ structlog==23.1.0
 colorama==0.4.6
 psutil==5.9.5
 django-prometheus==2.3.1
-prometheus-client==0.17.0
+prometheus-client==0.17.1
