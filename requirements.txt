@@ -6,8 +6,9 @@ certifi
 dj-database-url==2.1.0
 django-redis==5.3.0
 elastic-apm==6.18.0
-elasticsearch==7.17.9
-elasticsearch-dsl==7.4.1
+elasticsearch==8.9.0
+elasticsearch-dsl==8.9.0
+elastic-transport==8.4.0
 gunicorn==21.2.0
 honcho==1.1.0
 kombu==5.3.2
