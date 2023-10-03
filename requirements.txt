@@ -4,7 +4,7 @@ celery==5.3.4
 future==0.18.3
 certifi
 dj-database-url==2.1.0
-django-redis==5.3.0
+django-redis==5.4.0
 elastic-apm==6.18.0
 elasticsearch==8.10.0
 elasticsearch-dsl==8.9.0
