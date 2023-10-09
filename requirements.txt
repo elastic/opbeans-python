@@ -1,4 +1,4 @@
-django==4.2.5
+django==4.2.6
 amqp==5.1.1
 celery==5.3.4
 future==0.18.3
