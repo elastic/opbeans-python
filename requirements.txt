@@ -5,7 +5,7 @@ future==0.18.3
 certifi
 dj-database-url==2.1.0
 django-redis==5.4.0
-elastic-apm==6.18.0
+elastic-apm==6.19.0
 elasticsearch==8.10.1
 elasticsearch-dsl==8.9.0
 elastic-transport==8.4.1
