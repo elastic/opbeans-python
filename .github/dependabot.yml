@@ -8,6 +8,8 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+      day: "sunday"
+      time: "22:00"
     reviewers:
       - "elastic/apm-agent-python"
 
@@ -18,5 +20,20 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+      day: "sunday"
+      time: "22:00"
     reviewers:
       - "elastic/apm-agent-python"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    reviewers:
+      - "elastic/observablt-ci"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "22:00"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
