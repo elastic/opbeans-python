@@ -16,7 +16,7 @@ psycopg2-binary==2.9.9
 pytz
 redis==5.0.1
 urllib3==1.26.18
-vine==5.0.0
+vine==5.1.0
 whitenoise==6.6.0
 requests==2.31.0
 structlog==23.2.0
