@@ -1,6 +1,6 @@
 django==4.2.7
 amqp==5.2.0
-celery==5.3.4
+celery==5.3.5
 future==0.18.3
 certifi
 dj-database-url==2.1.0
