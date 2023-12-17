@@ -8,7 +8,7 @@ django-redis==5.4.0
 elastic-apm==6.19.0
 elasticsearch==8.11.1
 elasticsearch-dsl==8.11.0
-elastic-transport==8.10.0
+elastic-transport==8.11.0
 gunicorn==21.2.0
 honcho==1.1.0
 kombu==5.3.4
