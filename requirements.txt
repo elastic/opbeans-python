@@ -1,7 +1,7 @@
 django==5.0.2
 amqp==5.2.0
 celery==5.3.6
-future==0.18.3
+future==1.0.0
 certifi
 dj-database-url==2.1.0
 django-redis==5.4.0
