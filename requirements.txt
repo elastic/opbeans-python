@@ -1,4 +1,4 @@
-django==5.0.2
+django==5.0.4
 amqp==5.2.0
 celery==5.3.6
 future==1.0.0
@@ -6,15 +6,16 @@ certifi
 dj-database-url==2.1.0
 django-redis==5.4.0
 elastic-apm==6.22.0
-elasticsearch==8.12.1
-elasticsearch-dsl==8.12.0
-elastic-transport==8.12.0
+elastic-apm==6.21.3
+elasticsearch==8.13.0
+elasticsearch-dsl==8.13.0
+elastic-transport==8.13.0
 gunicorn==21.2.0
 honcho==1.1.0
-kombu==5.3.5
+kombu==5.3.6
 psycopg2-binary==2.9.9
 pytz
-redis==5.0.2
+redis==5.0.3
 urllib3==1.26.18
 vine==5.1.0
 whitenoise==6.6.0
