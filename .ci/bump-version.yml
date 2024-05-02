@@ -21,6 +21,8 @@ actions:
   opbeans-python:
     kind: github/pullrequest
     scmid: githubConfig
+    sourceid: elastic-apm-agent-python
+    title: 'build(deps): Bump elastic-apm to {{ source "elastic-apm-agent-python" }}'
     spec:
       automerge: false
       labels:
