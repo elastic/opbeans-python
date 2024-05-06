@@ -7,7 +7,7 @@ dj-database-url==2.1.0
 django-redis==5.4.0
 elastic-apm==6.22.0
 elasticsearch==8.13.1
-elasticsearch-dsl==8.13.0
+elasticsearch-dsl==8.13.1
 elastic-transport==8.13.0
 gunicorn==22.0.0
 honcho==1.1.0
