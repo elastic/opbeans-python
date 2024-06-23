@@ -15,7 +15,7 @@ kombu==5.3.7
 psycopg2-binary==2.9.9
 pytz
 redis==5.0.6
-urllib3==1.26.18
+urllib3==1.26.19
 vine==5.1.0
 whitenoise==6.6.0
 requests==2.32.3
