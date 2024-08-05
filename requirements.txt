@@ -19,7 +19,7 @@ urllib3==1.26.19
 vine==5.1.0
 whitenoise==6.7.0
 requests==2.32.3
-structlog==24.2.0
+structlog==24.4.0
 colorama==0.4.6
 psutil==5.9.8
 django-prometheus==2.3.1
