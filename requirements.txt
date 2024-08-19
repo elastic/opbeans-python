@@ -9,7 +9,7 @@ elastic-apm==6.23.0
 elasticsearch==8.14.0
 elasticsearch-dsl==8.15.0
 elastic-transport==8.15.0
-gunicorn==22.0.0
+gunicorn==23.0.0
 honcho==1.1.0
 kombu==5.4.0
 psycopg2-binary==2.9.9
