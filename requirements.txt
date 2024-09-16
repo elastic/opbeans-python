@@ -11,7 +11,7 @@ elasticsearch-dsl==8.15.2
 elastic-transport==8.15.0
 gunicorn==23.0.0
 honcho==1.1.0
-kombu==5.4.0
+kombu==5.4.1
 psycopg2-binary==2.9.9
 pytz
 redis==5.0.8
