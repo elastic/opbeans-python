@@ -10,7 +10,7 @@ elasticsearch==8.15.1
 elasticsearch-dsl==8.15.4
 elastic-transport==8.15.1
 gunicorn==23.0.0
-honcho==1.1.0
+honcho==2.0.0
 kombu==5.4.2
 psycopg2-binary==2.9.9
 pytz
