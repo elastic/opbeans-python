@@ -1,5 +1,5 @@
 django==5.0.8
-amqp==5.2.0
+amqp==5.3.1
 celery==5.4.0
 future==1.0.0
 certifi
