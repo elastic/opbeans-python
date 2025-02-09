@@ -17,7 +17,7 @@ pytz
 redis==5.2.1
 urllib3==1.26.20
 vine==5.1.0
-whitenoise==6.8.2
+whitenoise==6.9.0
 requests==2.32.3
 structlog==25.1.0
 colorama==0.4.6
