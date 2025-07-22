@@ -1,5 +1,5 @@
 # Default owner
-* elastic/apm-agent-python
+* @elastic/apm-agent-python
 
 # Sub-directories/files ownership
 /.github/workflows @elastic/observablt-ci
