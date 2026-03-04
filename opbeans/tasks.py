@@ -4,7 +4,7 @@ from django.core.cache import cache
 from django.db import models as m
 
 import elasticapm
-from elasticsearch import TransportError
+from elasticsearch import NotFoundError
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
@@ -36,9 +36,8 @@ def sync_orders():
     try:
         r = Search(index='py-orders').sort('-_id')[0].execute()
         highest_id = int(r.hits[0].meta.id)
-    except TransportError as e:
-        if e.status_code == 404:
-            highest_id = 0
+    except NotFoundError:
+        highest_id = 0
     order_docs = []
     for order in models.Order.objects.filter(id__gt=highest_id).prefetch_related('customer'):
         order_docs.append(documents.Order(**order.to_search()).to_dict(include_meta=True))

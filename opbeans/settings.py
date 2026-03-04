@@ -110,8 +110,6 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
@@ -183,10 +181,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': "json" if "ENABLE_JSON_LOGGING" in os.environ else "console",
         },
-        'elasticapm': {
-            'class': 'elasticapm.contrib.django.handlers.LoggingHandler',
-            'level': 'WARNING',
-        },
     },
     'loggers': {
         'django': {
@@ -194,7 +188,7 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
         'opbeans': {
-            'handlers': ['console', 'elasticapm'],
+            'handlers': ['console'],
             'level': 'INFO',
         },
         'elasticapm': {
@@ -205,6 +199,7 @@ LOGGING = {
 }
 
 structlog_processors=[
+        structlog.contextvars.merge_contextvars,
         structlog.stdlib.filter_by_level,
         structlog.processors.TimeStamper(fmt="iso", key="@timestamp"),
         structlog.stdlib.add_logger_name,
@@ -227,7 +222,7 @@ except ImportError:
 
 structlog.configure(
     processors=structlog_processors,
-    context_class=structlog.threadlocal.wrap_dict(dict),
+    context_class=dict,
     logger_factory=structlog.stdlib.LoggerFactory(),
     wrapper_class=structlog.stdlib.BoundLogger,
     cache_logger_on_first_use=True,
