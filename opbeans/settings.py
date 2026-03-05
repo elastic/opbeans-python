@@ -181,6 +181,10 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': "json" if "ENABLE_JSON_LOGGING" in os.environ else "console",
         },
+        'elasticapm': {
+            'class': 'elasticapm.contrib.django.handlers.LoggingHandler',
+            'level': 'WARNING',
+        },
     },
     'loggers': {
         'django': {
@@ -188,7 +192,7 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
         'opbeans': {
-            'handlers': ['console'],
+            'handlers': ['console', 'elasticapm'],
             'level': 'INFO',
         },
         'elasticapm': {
